@@ -14,9 +14,7 @@ Window.size = (350, 650)
 DATA_FILE = "users.txt"
 LAST_FILE = "last_user.txt"
 
-# -------------------------------
-# ДЕРЕКТЕР ФУНКЦИЯЛАР 
-# -------------------------------
+
 
 def parse_balance(balance_str):
     """
@@ -25,7 +23,7 @@ def parse_balance(balance_str):
     """
     if not balance_str:
         return 0
-    # Балансты жәй мәтіннен цифрларды тауып аламыз (алғашқы сан)
+    
     m = re.search(r'(\d+)', balance_str)
     if m:
         return int(m.group(1))
@@ -42,12 +40,11 @@ def load_users():
                 line = line.strip()
                 if not line:
                     continue
-                # Ең көбі 4 бөлім: name:balance_with_tg:pin:bought1,bought2
-                # кейде ескі формат 3 бөлім болуы мүмкін -> өңдейміз
+                
                 parts = line.split(":", maxsplit=3)
-                # нормализация
+             
                 if len(parts) == 1:
-                    # күтпеген формат — өткізіп жібер
+                   
                     continue
                 if len(parts) == 2:
                     name = parts[0].strip()
@@ -59,7 +56,7 @@ def load_users():
                     balance = parse_balance(parts[1].strip())
                     pin = parts[2].strip()
                     bought_list = []
-                else:  # len == 4
+                else:  # len = 4
                     name = parts[0].strip()
                     balance = parse_balance(parts[1].strip())
                     pin = parts[2].strip()
@@ -74,7 +71,7 @@ def load_users():
     return users
 
 def save_users(users):
-    # Барлық баланс 'тг' түрде сақталады (қазақша символ)
+    
     with open(DATA_FILE,"w",encoding="utf-8") as f:
         for name, data in users.items():
             bought = ",".join(data.get("bought", []))
@@ -90,9 +87,7 @@ def load_last_user():
             return f.read().strip()
     return None
 
-# -------------------------------
-# UI КОДЫ (қалғаны бұрынғы логикамен)
-# -------------------------------
+
 
 def round_btn(text, func):
     btn = Button(
@@ -374,4 +369,6 @@ class BankApp(App):
 
 if __name__ == "__main__":
     BankApp().run()
+
+
 
